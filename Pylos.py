@@ -5,6 +5,19 @@ Created on Wed Dec  2 13:21:17 2020
 @author: jackp
 """
 
+'''
+
+
+HELLO GITHUB!
+
+
+'''
+
+
+
+
+
+
 import numpy as np
 
 def random_move():
@@ -25,6 +38,12 @@ def ask_move():
     return (level,row,column)
 
 
+def get_move():
+    
+    ''' Function to ask user for move in proper format ie P 0,0,0 and convert to usable move. '''
+    
+    takein = input("Please enter the move in string format (ie P 0,0,0).")
+    return takein
 
 
 def print_board(a):
@@ -251,7 +270,7 @@ print()
 
 legality = 0
 while legality == 0:
-    move = ask_move()
+    move = place_interpretor(get_move())
     legality = availability_check(move,board)
     if legality == 0:
         print ("Move illegal, please make another.")
