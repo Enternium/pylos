@@ -64,6 +64,14 @@ def change_board(move,board,player):
         board [move[0]][move[1]][move[2]] = player
     return board
 
+def implement_remove(move,board):
+    
+    '''Function to remove a piece from the board (DOESN'T check if move is legal)'''
+    
+    board [move[0]][move[1]][move[2]] = 0
+    return board
+
+
 def availability_check(move,board):
     
     '''Function to check whether the space being moved into is empty and supported beneath.'''
@@ -126,6 +134,64 @@ def availability_check(move,board):
     # if has passed these then must be an available position
     else:
         return 1
+
+
+def availability_check_remove(move,board):
+    
+    ''' Function to check whether a piece has something placed on it, and therefor whether it can physically
+        be removed. '''
+    
+    if move == (0,0,0):
+        if board [1][0][0] != 0:
+            return 0
+    elif move == (0,0,1):
+        if 0 in (board[1][0][0],board[1][0][1]):
+            return 0
+    elif move == (0,0,2):
+        if 0 in (board[1][0][2],board[1][0][1]):
+            return 0
+    elif move == (0,0,3):
+        if board [1][0][2] != 0:
+            return 0
+    elif move == (0,1,0):
+        if 0 in (board[1][0][0],board[1][1][0]):
+            return 0
+    elif move == (0,2,0):
+        if 0 in (board[1][2][0],board[1][1][0]):
+            return 0
+    elif move == (0,3,0):
+        if board [1][2][0] != 0:
+            return 0
+    elif move == (0,3,1):
+        if 0 in (board[1][2][0],board[1][2][1]):
+            return 0
+    elif move == (0,3,2):
+        if 0 in (board[1][2][2],board[1][2][1]):
+            return 0
+    elif move == (0,3,3):
+        if board [1][2][2] != 0:
+            return 0
+    elif move == (0,1,3):
+        if 0 in (board[1][0][2],board[1][1][2]):
+            return 0
+    elif move == (0,2,3):
+        if 0 in (board[1][2][2],board[1][1][2]):
+            return 0
+    elif move == (0,1,1):
+        if 0 in (board[1][0][0],board[1][1][0],board[1][0][1],board[1][1][1]):
+            return 0
+    elif move == (0,1,2):
+        if 0 in (board[1][0][2],board[1][1][2],board[1][0][1],board[1][1][1]):
+            return 0
+    elif move == (0,2,2):
+        if 0 in (board[1][2][2],board[1][1][2],board[1][2][1],board[1][1][1]):
+            return 0
+    elif move == (0,2,1):
+        if 0 in (board[1][2][0],board[1][1][0],board[1][2][1],board[1][1][1]):
+            return 0
+    else:
+        return 1
+
 
 def Loader(savefile):
     
