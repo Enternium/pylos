@@ -341,7 +341,64 @@ def lift_interpretor_implement(string,board,player):
             change_board(place,board,player)
             return board
         
+def line_check(move,board,player):
+    
+    ''' THE MOVE HAS TO HAVE ALREADY BEEN IMPLEMENTED FOR THIS TO WORK! '''
+    
+    if move[0] not in (0,1):
+        return 0
+    
+    # bottom layer horizontal lines
+    if move in ((0,0,0),(0,0,1),(0,0,2),(0,0,3)):
+        if board[0][0][0] == board[0][0][1] == board[0][0][2] == board[0][0][3] == player:
+            return 1
+    elif move in ((0,1,0),(0,1,1),(0,1,2),(0,1,3)):
+        if board[0][1][0] == board[0][1][1] == board[0][1][2] == board[0][1][3] == player:
+            return 1
+    elif move in ((0,2,0),(0,2,1),(0,2,2),(0,2,3)):
+        if board[0][2][0] == board[0][2][1] == board[0][2][2] == board[0][2][3] == player:
+            return 1
+    elif move in ((0,3,0),(0,3,1),(0,3,2),(0,3,3)):
+        if board[0][3][0] == board[0][3][1] == board[0][3][2] == board[0][3][3] == player:
+            return 1
+    
+    # bottom layer vertical lines
+    if move in ((0,0,0),(0,1,0),(0,2,0),(0,3,0)):
+        if board[0][0][0] == board[0][1][0] == board[0][2][0] == board[0][3][0] == player:
+            return 1
+    elif move in ((0,0,1),(0,1,1),(0,2,1),(0,3,1)):
+        if board[0][0][1] == board[0][1][1] == board[0][2][1] == board[0][3][1] == player:
+            return 1
+    elif move in ((0,0,2),(0,1,2),(0,2,2),(0,3,2)):
+        if board[0][0][2] == board[0][1][2] == board[0][2][2] == board[0][3][2] == player:
+            return 1
+    elif move in ((0,0,3),(0,1,3),(0,2,3),(0,3,3)):
+        if board[0][0][3] == board[0][1][3] == board[0][2][3] == board[0][3][3] == player:
+            return 1
 
+    # second layer horizontal lines
+    if move in ((1,0,0),(1,0,1),(1,0,2)):
+        if board[1][0][0] == board[1][0][1] == board[1][0][2] == player:
+            return 1
+    elif move in ((1,1,0),(1,1,1),(1,1,2)):
+        if board[1][1][0] == board[1][1][1] == board[1][1][2] == player:
+            return 1
+    elif move in ((1,2,0),(1,2,1),(1,2,2)):
+        if board[1][2][0] == board[1][2][1] == board[1][2][2] == player:
+            return 1
+    
+    # second layer vertical lines
+    if move in ((1,0,0),(1,1,0),(1,2,0)):
+        if board[1][0][0] == board[1][1][0] == board[1][2][0] == player:
+            return 1
+    elif move in ((1,0,1),(1,1,1),(1,2,1)):
+        if board[1][0][1] == board[1][1][1] == board[1][2][1] == player:
+            return 1
+    elif move in ((1,0,2),(1,1,2),(1,2,2)):
+        if board[1][0][2] == board[1][1][2] == board[1][2][2] == player:
+            return 1
+    
+    return 0
 
 
 ''' Start Board '''
