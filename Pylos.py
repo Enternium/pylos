@@ -5,17 +5,6 @@ Created on Wed Dec  2 13:21:17 2020
 @author: jackp
 """
 
-'''
-
-
-HELLO GITHUB!
-
-
-'''
-
-
-
-
 
 
 import numpy as np
@@ -243,10 +232,8 @@ def place_interpretor(place):
     ''' Function to interpret an input of the format "P 0,0,0" and turn it into an array of 
         3 elements in the familiar format. '''
         
-    move = np.zeros(3,dtype='int')
-    move[0] = int(place[2])
-    move[1] = int(place[4])
-    move[2] = int(place[6])
+    move = (int(place[2]),int(place[4]),int(place[6]))
+      
     
     return move
 
@@ -271,6 +258,8 @@ print()
 legality = 0
 while legality == 0:
     move = place_interpretor(get_move())
+    print (move)
+    print (type(move))
     legality = availability_check(move,board)
     if legality == 0:
         print ("Move illegal, please make another.")
