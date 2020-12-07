@@ -30,8 +30,17 @@ def ask_move():
 def get_move():
     
     ''' Function to ask user for move in proper format ie P 0,0,0 and convert to usable move. '''
+    Error = True
+    while Error:
+        takein = input("Please enter the move in string format (ie P 0,0,0).")
+        
+        if len(takein) == 7 and takein[3] == "," and takein[5] == "," and takein[0] in ("P","R"):
+            Error = False
+        else:
+            print ()
+            print ("There is something wrong with the format of your input, please try again")       
+        
     
-    takein = input("Please enter the move in string format (ie P 0,0,0).")
     return takein
 
 
@@ -259,7 +268,6 @@ legality = 0
 while legality == 0:
     move = place_interpretor(get_move())
     print (move)
-    print (type(move))
     legality = availability_check(move,board)
     if legality == 0:
         print ("Move illegal, please make another.")
