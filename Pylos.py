@@ -319,8 +319,23 @@ def move_type(move):
     
     ''' Function to interpret difference between lifts, moves and removes when passed
         in string format. '''
+    if len(move) == 7:
+        return "Place"
+    elif move[0] == "P":
+        if len(move) == 15:
+            return "Place and remove one"
+        elif len(move) == 23:
+            return "Place and remove two"
+    elif move[0] == "L":
+        if len(move) == 15:
+            return "Lift"
+        elif len(move) == 23:
+            return "Lift and remove one"
+        elif len(move) == 31:
+            return "Lift and remove two"
     
-    return move[0]
+    print ("Move type unknown")
+    return "Unknown"
 
 def lift_interpretor_implement(string,board,player):
     
@@ -455,7 +470,17 @@ def square_check(move,board,player):
     # if no conditions are met, then there has been no square formed
     return 0
         
-
+def omni_evaluate(string,board,player):
+    
+    ''' Function to check ALL types of string input. SEPERATE FUNCTION THEN USED TO IMPLEMENT! '''
+    
+    if move_type(string) == "Place":
+        move = place_remove_interpretor(string)
+        if availability_check(move,board) == 0:
+            return 0
+        else:
+            return 1
+    elif move_type(string) == "R"
 
 
 ''' Start Board '''
