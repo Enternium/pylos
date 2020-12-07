@@ -400,6 +400,63 @@ def line_check(move,board,player):
     
     return 0
 
+def square_check(move,board,player):
+    
+    ''' MOVE MUST ALREADY BE IMPLEMENTED! '''
+    
+    # first layer
+    if move[0] == 0:
+        if move in ((0,0,0),(0,0,1),(0,1,0),(0,1,1)):
+            if board[0,0,0] == board[0][0][1] == board[0][1][0] == board[0][1][1] = player:
+                return 1
+        if move in ((0,0,2),(0,0,1),(0,1,2),(0,1,1)):
+            if board[0,0,2] == board[0][0][1] == board[0][1][2] == board[0][1][1] = player:
+                return 1
+        if move in ((0,0,2),(0,0,3),(0,1,2),(0,1,3)):
+            if board[0,0,2] == board[0][0][3] == board[0][1][2] == board[0][1][3] = player:
+                return 1
+        if move in ((0,2,2),(0,2,3),(0,1,2),(0,1,3)):
+            if board[0,2,2] == board[0][2][3] == board[0][1][2] == board[0][1][3] = player:
+                return 1
+        if move in ((0,2,2),(0,2,1),(0,1,2),(0,1,1)):
+            if board[0,2,2] == board[0][2][1] == board[0][1][2] == board[0][1][1] = player:
+                return 1
+        if move in ((0,2,0),(0,2,1),(0,1,0),(0,1,1)):
+            if board[0,2,0] == board[0][2][1] == board[0][1][0] == board[0][1][1] = player:
+                return 1
+        if move in ((0,2,0),(0,2,1),(0,3,0),(0,3,1)):
+            if board[0,2,0] == board[0][2][1] == board[0][3][0] == board[0][3][1] = player:
+                return 1
+        if move in ((0,2,2),(0,2,1),(0,3,2),(0,3,1)):
+            if board[0,2,2] == board[0][2][1] == board[0][3][2] == board[0][3][1] = player:
+                return 1
+        if move in ((0,2,2),(0,2,3),(0,3,2),(0,3,3)):
+            if board[0,2,2] == board[0][2][3] == board[0][3][2] == board[0][3][3] = player:
+                return 1
+    
+    # second and third layer
+    else:
+        if move in ((1,0,0),(1,0,1),(1,1,0),(1,1,1)):
+            if board[1,0,0] == board[1][0][1] == board[1][1][0] == board[1][1][1] = player:
+                return 1
+        if move in ((1,0,2),(1,0,1),(1,1,2),(1,1,1)):
+            if board[1,0,2] == board[1][0][1] == board[1][1][2] == board[1][1][1] = player:
+                return 1
+        if move in ((1,2,2),(1,2,1),(1,1,2),(1,1,1)):
+            if board[1,2,2] == board[1][2][1] == board[1][1][2] == board[1][1][1] = player:
+                return 1
+        if move in ((1,2,0),(1,2,1),(1,1,0),(1,1,1)):
+            if board[1,2,0] == board[1][2][1] == board[1][1][0] == board[1][1][1] = player:
+                return 1
+        if move in ((2,0,0),(2,0,1),(2,1,0),(2,1,1)):
+            if board[2,0,0] == board[2][0][1] == board[2][1][0] == board[2][1][1] = player:
+                return 1
+    
+    # if no conditions are met, then there has been no square formed
+    return 0
+        
+
+
 
 ''' Start Board '''
 
