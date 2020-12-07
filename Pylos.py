@@ -136,7 +136,7 @@ def availability_check(move,board):
         return 1
 
 
-def availability_check_remove(move,board):
+def availability_check_remove(move,board,player):
     
     ''' Function to check whether a piece has something placed on it, and therefor whether it can physically
         be removed. '''
@@ -190,7 +190,10 @@ def availability_check_remove(move,board):
         if 0 in (board[1][2][0],board[1][1][0],board[1][2][1],board[1][1][1]):
             return 0
     else:
-        return 1
+        if board [move[0]][move[1]][move[2]] == player:
+            return 1
+        else:
+            return 0
 
 
 def Loader(savefile):
@@ -302,7 +305,7 @@ def Loader(savefile):
 
     return board
 
-def place_interpretor(place):
+def place_remove_interpretor(place):
     
     ''' Function to interpret an input of the format "P 0,0,0" and turn it into an array of 
         3 elements in the familiar format. '''
@@ -312,6 +315,32 @@ def place_interpretor(place):
     
     return move
 
+def move_type(move):
+    
+    ''' Function to interpret difference between lifts, moves and removes when passed
+        in string format. '''
+    
+    return move[0]
+
+def lift_interpretor_implement(string,board,player):
+    
+    ''' Function to check lift legality and then subsequent implementation. '''
+    
+    removal = (int(string[2]),int(string[4]),int(string[6]))
+    place = (int(string[8]),int(string[10]),int(string[12]))
+    if availability_check_remove(removal,board) == 0:
+        print ("Piece can't be lifted")
+        return board
+    else:
+        implement_remove(removal,board)
+        if availability_check(place,board) == 0:
+            print ("Piece can't be placed here")
+            change_board(removal,board,player)
+            return (board)
+        else:
+            change_board(place,board,player)
+            return board
+        
 
 
 
@@ -327,12 +356,12 @@ print_board(board)
 
 ''' '''
 
-print ("Human player goes first")
+print ("Opponent goes first")
 print()
 
 legality = 0
 while legality == 0:
-    move = place_interpretor(get_move())
+    move = place_remove_interpretor(get_move())
     print (move)
     legality = availability_check(move,board)
     if legality == 0:
