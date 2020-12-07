@@ -309,11 +309,45 @@ def place_remove_interpretor(place):
     
     ''' Function to interpret an input of the format "P 0,0,0" and turn it into an array of 
         3 elements in the familiar format. '''
-        
-    move = (int(place[2]),int(place[4]),int(place[6]))
       
     
+    move = (int(place[2]),int(place[4]),int(place[6]))
+    
+    
     return move
+
+def second_step_interpretor(string):
+    
+    ''' Function that interprets the second move a string of places and remove
+        ie "P 0,0,0 R 0,0,0 R 0,0,1". '''
+        
+    move = (int(string[10]),int(string[12]),int(string[14]))
+    return move
+
+def third_step_interpretor(string):
+    
+    ''' Function that interprets the third move a string of places and remove
+        ie "P 0,0,0 R 0,0,0 R 0,0,1". '''
+        
+    move = (int(string[18]),int(string[20]),int(string[22]))
+    return move
+
+def lift_remove_first_interpretor(string):
+    
+    ''' Function that interprets the first remove of a string of a lift that completes
+        a line or square to facilitate one or two removals. '''
+        
+    move = (int(string[16]),int(string[18]),int(string[20]))
+    return move
+
+def lift_remove_second_interpretor(string):
+    
+    ''' Function that interprets the second remove of a string of a lift that completes
+        a line or square to facilitate one or two removals. '''
+        
+    move = (int(string[24]),int(string[26]),int(string[28]))
+    return move
+
 
 def move_type(move):
     
@@ -347,13 +381,13 @@ def lift_interpretor_implement(string,board,player):
         print ("Piece can't be lifted")
         return board
     else:
-        implement_remove(removal,board)
+        board = implement_remove(removal,board)
         if availability_check(place,board) == 0:
             print ("Piece can't be placed here")
-            change_board(removal,board,player)
+            board = change_board(removal,board,player)
             return (board)
         else:
-            change_board(place,board,player)
+            board = change_board(place,board,player)
             return board
         
 def line_check(move,board,player):
@@ -480,7 +514,86 @@ def omni_evaluate(string,board,player):
             return 0
         else:
             return 1
-    elif move_type(string) == "R"
+    elif move_type(string) == "Place and remove one":
+        move1 = place_remove_interpretor(string)
+        if availability_check(move1,board) == 0:
+            return 0
+        else:
+            board = change_board(move1,board,player)
+            if 1 in (line_check(move1,board,player),square_check(move1,board,player)):
+                move2 = second_step_interpretor(string)
+                if availability_check_remove(move2,board,player) == 0:
+                    return 0
+                else:
+                    return 1
+            else:
+                print ("Have not completed square or line. Cannot remove pieces!")
+                return 0
+    elif move_type(string) == "Place and remove two":
+        move1 = place_remove_interpretor(string)
+        if availability_check(move1,board) == 0:
+            return 0
+        else:
+            board = change_board(move1,board,player)
+            if 1 in (line_check(move1,board,player),square_check(move1,board,player)):
+                move2 = second_step_interpretor(string)
+                if availability_check_remove(move2,board,player) == 0:
+                    return 0
+                else:
+                    board = implement_remove(move2,board)
+                    move3 = third_step_interpretor(string)
+                    if availability_check_remove(move3,board,player) == 0:
+                        return 0
+                    else:
+                        return 1
+            else:
+                print ("Have not completed square or line. Cannot remove pieces!")
+                return 0
+    elif move_type(string) == "Lift":
+        if board == lift_interpretor_implement(string,board,player):
+            return 0
+        else:
+            return 1
+    elif move_type(string) == "Lift and remove one":
+        place = (int(string[8]),int(string[10]),int(string[12]))
+        if board == lift_interpretor_implement(string,board,player):
+            return 0
+        else:
+            board = lift_interpretor_implement(string,board,player)
+            if 1 in (line_check(place,board,player),square_check(place,board,player)):
+                move1 = lift_remove_first_interpretor(string)
+                if availability_check_remove(move1,board,player) == 0:
+                    return 0
+                else:
+                    return 1
+            else:
+                print ("Did not complete square or line, cannnot remove")
+                return 0
+    elif move_type(string) == "Lift and remove two":
+        place = (int(string[8]),int(string[10]),int(string[12]))
+        if board == lift_interpretor_implement(string,board,player):
+            return 0
+        else:
+            board = lift_interpretor_implement(string,board,player)
+            if 1 in (line_check(place,board,player),square_check(place,board,player)):
+                move1 = lift_remove_first_interpretor(string)
+                if availability_check_remove(move1,board,player) == 0:
+                    return 0
+                else:
+                    board = implement_remove(move1,board)
+                    move2 = lift_remove_second_interpretor(string)
+                    if availability_check_remove(move2,board,player) == 0:
+                        return 0
+                    else:
+                        return 1
+            else:
+                print ("Did not complete square or line, cannnot remove")
+                return 0
+    else:
+        return 0
+                
+        
+        
 
 
 ''' Start Board '''
