@@ -630,7 +630,12 @@ def opponent_move(board):
     
     return board
 
-        
+def count_pieces(board,number):
+    count = np.count_nonzero(board[0]==number)
+    count = count + np.count_nonzero(board[1]==number)
+    count = count + np.count_nonzero(board[2]==number)
+    count = count + np.count_nonzero(board[2]==number)
+    return count
 
 
 ''' Start Board '''
@@ -643,21 +648,25 @@ d = np.zeros(1,dtype ='int') # fourth layer
 board = [a,b,c,d]
 print_board(board)
 
+opponent_pieces = 15
+computer_pieces = 15
+
 ''' '''
 
 print ("Opponent goes first")
 print()
 
 while board[3][0] == 0:
-
-    board = opponent_move(board)
-    print_board(board)
     
+    while count_pieces(board,1) < 15:
+        board = opponent_move(board)
+        print_board(board)
     
-    legality = 0
-    while legality == 0:   
-        move = random_move()
-        legality = availability_check(move,board)
+    while count_pieces(board,2) < 15:
+        legality = 0
+        while legality == 0:   
+            move = random_move()
+            legality = availability_check(move,board)
         
     
     board = change_board(move,board,2)
