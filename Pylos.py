@@ -378,7 +378,7 @@ def lift_interpretor_implement(string,board,player):
     
     removal = (int(string[2]),int(string[4]),int(string[6]))
     place = (int(string[8]),int(string[10]),int(string[12]))
-    if availability_check_remove(removal,board) == 0:
+    if availability_check_remove(removal,board,player) == 0:
         print ("Piece can't be lifted")
         return board
     else:
@@ -658,17 +658,18 @@ print()
 
 while board[3][0] == 0:
     
-    while count_pieces(board,1) < 15:
+    if count_pieces(board,1) < 15:
         board = opponent_move(board)
         print_board(board)
     
-    while count_pieces(board,2) < 15:
+    if count_pieces(board,2) < 15:
         legality = 0
         while legality == 0:   
             move = random_move()
             legality = availability_check(move,board)
+        board = change_board(move,board,2)
+        print_board (board)
         
     
-    board = change_board(move,board,2)
-    print_board (board)
+    
 
