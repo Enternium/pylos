@@ -20,14 +20,14 @@ def random_move():
     
     return height,x,y
 
-def ask_move():
+def ask_move(): # REDUNDANT
     level = int(input("Please enter an integer value for the level you wish to move into. 0 being the base and 3 being the top."))
     row = int(input("Please enter an integer value for the row you wish to move into. Starting from 0."))
     column = int(input("Please enter an integer value for the column you wish to move into. Starting from 0."))
     return (level,row,column)
 
 
-def get_move():
+def get_move(): # REDUNDANT
     
     ''' Function to ask user for move in proper format ie P 0,0,0 and convert to usable move. '''
     Error = True
@@ -145,50 +145,50 @@ def availability_check_remove(move,board,player):
         if board [1][0][0] != 0:
             return 0
     elif move == (0,0,1):
-        if 0 in (board[1][0][0],board[1][0][1]):
-            return 0
+        if board[1][0][0] == board[1][0][1] == 0:
+            return 1
     elif move == (0,0,2):
-        if 0 in (board[1][0][2],board[1][0][1]):
-            return 0
+        if board[1][0][2] == board[1][0][1] == 0:
+            return 1
     elif move == (0,0,3):
         if board [1][0][2] != 0:
             return 0
     elif move == (0,1,0):
-        if 0 in (board[1][0][0],board[1][1][0]):
-            return 0
+        if board[1][0][0] == board[1][1][0] == 0:
+            return 1
     elif move == (0,2,0):
-        if 0 in (board[1][2][0],board[1][1][0]):
-            return 0
+        if board[1][2][0] == board[1][1][0] == 0:
+            return 1
     elif move == (0,3,0):
         if board [1][2][0] != 0:
             return 0
     elif move == (0,3,1):
-        if 0 in (board[1][2][0],board[1][2][1]):
-            return 0
+        if board[1][2][0] == board[1][2][1] == 0:
+            return 1
     elif move == (0,3,2):
-        if 0 in (board[1][2][2],board[1][2][1]):
-            return 0
+        if board[1][2][2] == board[1][2][1] == 0:
+            return 1
     elif move == (0,3,3):
         if board [1][2][2] != 0:
             return 0
     elif move == (0,1,3):
-        if 0 in (board[1][0][2],board[1][1][2]):
-            return 0
+        if board[1][0][2] == board[1][1][2] == 0:
+            return 1
     elif move == (0,2,3):
-        if 0 in (board[1][2][2],board[1][1][2]):
-            return 0
+        if board[1][2][2] == board[1][1][2] == 0:
+            return 1
     elif move == (0,1,1):
-        if 0 in (board[1][0][0],board[1][1][0],board[1][0][1],board[1][1][1]):
-            return 0
+        if board[1][0][0] == board[1][1][0] == board[1][0][1] == board[1][1][1] == 0:
+            return 1
     elif move == (0,1,2):
-        if 0 in (board[1][0][2],board[1][1][2],board[1][0][1],board[1][1][1]):
-            return 0
+        if board[1][0][2] == board[1][1][2] == board[1][0][1] == board[1][1][1] == 0:
+            return 1
     elif move == (0,2,2):
-        if 0 in (board[1][2][2],board[1][1][2],board[1][2][1],board[1][1][1]):
-            return 0
+        if board[1][2][2] == board[1][1][2] == board[1][2][1] == board[1][1][1] == 0:
+            return 1
     elif move == (0,2,1):
-        if 0 in (board[1][2][0],board[1][1][0],board[1][2][1],board[1][1][1]):
-            return 0
+        if board[1][2][0] == board[1][1][0] == board[1][2][1] == board[1][1][1] == 0:
+            return 1
     else:
         if board [move[0]][move[1]][move[2]] == player:
             return 1
@@ -349,23 +349,24 @@ def lift_remove_second_interpretor(string):
     return move
 
 
-def move_type(move):
+def move_type(string):
     
     ''' Function to interpret difference between lifts, moves and removes when passed
         in string format. '''
-    if len(move) == 7:
+    
+    if len(string) == 7:
         return "Place"
-    elif move[0] == "P":
-        if len(move) == 15:
+    elif string[0] == "P" and string[8] == "R":
+        if len(string) == 15:
             return "Place and remove one"
-        elif len(move) == 23:
+        elif len(string) == 23 and string[16] == "R":
             return "Place and remove two"
-    elif move[0] == "L":
-        if len(move) == 15:
+    elif string[0] == "L":
+        if len(string) == 13:
             return "Lift"
-        elif len(move) == 23:
+        elif len(string) == 21:
             return "Lift and remove one"
-        elif len(move) == 31:
+        elif len(string) == 29:
             return "Lift and remove two"
     
     print ("Move type unknown")
@@ -456,31 +457,31 @@ def square_check(move,board,player):
     # first layer
     if move[0] == 0:
         if move in ((0,0,0),(0,0,1),(0,1,0),(0,1,1)):
-            if board[0,0,0] == board[0][0][1] == board[0][1][0] == board[0][1][1] == player:
+            if board[0][0][0] == board[0][0][1] == board[0][1][0] == board[0][1][1] == player:
                 return 1
         if move in ((0,0,2),(0,0,1),(0,1,2),(0,1,1)):
-            if board[0,0,2] == board[0][0][1] == board[0][1][2] == board[0][1][1] == player:
+            if board[0][0][2] == board[0][0][1] == board[0][1][2] == board[0][1][1] == player:
                 return 1
         if move in ((0,0,2),(0,0,3),(0,1,2),(0,1,3)):
-            if board[0,0,2] == board[0][0][3] == board[0][1][2] == board[0][1][3] == player:
+            if board[0][0][2] == board[0][0][3] == board[0][1][2] == board[0][1][3] == player:
                 return 1
         if move in ((0,2,2),(0,2,3),(0,1,2),(0,1,3)):
-            if board[0,2,2] == board[0][2][3] == board[0][1][2] == board[0][1][3] == player:
+            if board[0][2][2] == board[0][2][3] == board[0][1][2] == board[0][1][3] == player:
                 return 1
         if move in ((0,2,2),(0,2,1),(0,1,2),(0,1,1)):
-            if board[0,2,2] == board[0][2][1] == board[0][1][2] == board[0][1][1] == player:
+            if board[0][2][2] == board[0][2][1] == board[0][1][2] == board[0][1][1] == player:
                 return 1
         if move in ((0,2,0),(0,2,1),(0,1,0),(0,1,1)):
-            if board[0,2,0] == board[0][2][1] == board[0][1][0] == board[0][1][1] == player:
+            if board[0][2][0] == board[0][2][1] == board[0][1][0] == board[0][1][1] == player:
                 return 1
         if move in ((0,2,0),(0,2,1),(0,3,0),(0,3,1)):
-            if board[0,2,0] == board[0][2][1] == board[0][3][0] == board[0][3][1] == player:
+            if board[0][2][0] == board[0][2][1] == board[0][3][0] == board[0][3][1] == player:
                 return 1
         if move in ((0,2,2),(0,2,1),(0,3,2),(0,3,1)):
-            if board[0,2,2] == board[0][2][1] == board[0][3][2] == board[0][3][1] == player:
+            if board[0][2][2] == board[0][2][1] == board[0][3][2] == board[0][3][1] == player:
                 return 1
         if move in ((0,2,2),(0,2,3),(0,3,2),(0,3,3)):
-            if board[0,2,2] == board[0][2][3] == board[0][3][2] == board[0][3][3] == player:
+            if board[0][2][2] == board[0][2][3] == board[0][3][2] == board[0][3][3] == player:
                 return 1
     
     # second and third layer
@@ -532,17 +533,20 @@ def omni_evaluate(string,board,player):
     elif move_type(string) == "Place and remove two":
         move1 = place_remove_interpretor(string)
         if availability_check(move1,board) == 0:
+            print ("Place not available")
             return 0
         else:
             board = change_board(move1,board,player)
             if 1 in (line_check(move1,board,player),square_check(move1,board,player)):
                 move2 = second_step_interpretor(string)
                 if availability_check_remove(move2,board,player) == 0:
+                    print ("First remove not avaiable")
                     return 0
                 else:
                     board = implement_remove(move2,board)
                     move3 = third_step_interpretor(string)
                     if availability_check_remove(move3,board,player) == 0:
+                        print ("Second remove not available")
                         return 0
                     else:
                         return 1
@@ -590,9 +594,42 @@ def omni_evaluate(string,board,player):
                 print ("Did not complete square or line, cannnot remove")
                 return 0
     else:
+        print ("Omni_evaluate did not recognise move_type")
         return 0
                 
-        
+def opponent_move(board):
+    
+    ''' Function to request, interpret, evaluate, and then implement the opponent's move. '''
+    
+    while True:
+        string = input("Please enter move in string format.")
+        if omni_evaluate(string,board,1) == 1:
+            print ("Legal")
+            break
+        else:
+            print ("Not legal")
+    
+    if move_type(string) == "Place":
+        board = change_board(place_remove_interpretor(string),board,1)
+    elif move_type(string) == "Place and remove one":
+        board = change_board(place_remove_interpretor(string),board,1)
+        board = implement_remove(second_step_interpretor(string),board)
+    elif move_type(string) == "Place and remove two":
+        board = change_board(place_remove_interpretor(string),board,1)
+        board = implement_remove(second_step_interpretor(string),board)
+        board = implement_remove(third_step_interpretor(string),board)
+    elif move_type(string) == "Lift":
+        board = lift_interpretor_implement(string,board,1)
+    elif move_type(string) == "Lift and remove one":
+        board = lift_interpretor_implement(string,board,1)
+        board = implement_remove(lift_remove_first_interpretor(string),board)
+    elif move_type(string) == "Lift and remove two":
+        board = lift_interpretor_implement(string,board,1)
+        board = implement_remove(lift_remove_first_interpretor(string),board)
+        board = implement_remove(lift_remove_second_interpretor(string),board)
+    
+    return board
+
         
 
 
@@ -611,22 +648,18 @@ print_board(board)
 print ("Opponent goes first")
 print()
 
-legality = 0
-while legality == 0:
-    move = place_remove_interpretor(get_move())
-    print (move)
-    legality = availability_check(move,board)
-    if legality == 0:
-        print ("Move illegal, please make another.")
-board = change_board(move,board,1)
-print_board (board)
+while True:
 
-legality = 0
-while legality == 0:   
-    move = random_move()
-    legality = availability_check(move,board)
+    board = opponent_move(board)
+    print_board(board)
     
-
-board = change_board(move,board,2)
-print_board (board)
+    
+    legality = 0
+    while legality == 0:   
+        move = random_move()
+        legality = availability_check(move,board)
+        
+    
+    board = change_board(move,board,2)
+    print_board (board)
 
