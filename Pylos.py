@@ -648,7 +648,7 @@ print_board(board)
 print ("Opponent goes first")
 print()
 
-while True:
+while board[3][0] == 0:
 
     board = opponent_move(board)
     print_board(board)
