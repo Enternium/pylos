@@ -382,15 +382,46 @@ def lift_interpretor_implement(string,board,player):
         print ("Piece can't be lifted")
         return board
     else:
+        print ("Piece succesfully removed:")
+        print (removal)
+        board = implement_remove(removal,board)
+        print ("Board after piece removed (but not yet placed again):")
+        print_board(board)
+        if availability_check(place,board) == 0:
+            print ("Piece can't be placed here:")
+            print (place)
+            board = change_board(removal,board,player)
+            return board
+        else:
+            board = change_board(place,board,player)
+            print("Succesfully placed:")
+            print (place)
+            print ("Lift_interpretor_implement success:")
+            print_board(board)
+            return board
+
+def lift_legality(string,board,player):
+    
+    ''' Function to check the legality of a lift. '''
+    
+    removal = (int(string[2]),int(string[4]),int(string[6]))
+    place = (int(string[8]),int(string[10]),int(string[12]))
+    if availability_check_remove(removal,board,player) == 0:
+        print ("Piece can't be lifted")
+        return 0
+    else:
+        print ("removal of piece legal.")
         board = implement_remove(removal,board)
         if availability_check(place,board) == 0:
             print ("Piece can't be placed here")
-            board = change_board(removal,board,player)
-            return (board)
+            return 0
         else:
-            board = change_board(place,board,player)
-            return board
+            print ("Lift legal (as checked by lift_legality)")
+            return 1
         
+
+
+ 
 def line_check(move,board,player):
     
     ''' THE MOVE HAS TO HAVE ALREADY BEEN IMPLEMENTED FOR THIS TO WORK! '''
@@ -508,7 +539,9 @@ def square_check(move,board,player):
 def omni_evaluate(string,board,player):
     
     ''' Function to check ALL types of string input. SEPERATE FUNCTION THEN USED TO IMPLEMENT! '''
-    
+    print ("Board omni-evaluate see (before move)")
+    print_board(board)
+    print (move_type(string))
     if move_type(string) == "Place":
         move = place_remove_interpretor(string)
         if availability_check(move,board) == 0:
@@ -554,10 +587,30 @@ def omni_evaluate(string,board,player):
                 print ("Have not completed square or line. Cannot remove pieces!")
                 return 0
     elif move_type(string) == "Lift":
-        if board == lift_interpretor_implement(string,board,player):
+        '''
+        
+        OLD SYSTEM (BEFORE lift_legality DEVELOPED)
+        
+        board = lift_interpretor_implement(string,board,player)
+        if board [int(string[8])][int(string[10])][int(string[12])] != player:
+            print("Board has not changed after attempting lift_interpretor_implement")
             return 0
         else:
+            print ("Lift successfully passed through omni_evaluate.")
             return 1
+        '''
+        if lift_legality(string,board,player) == 1:
+            print ("Passed through omni_evaluate")
+            return 1
+        else:
+            print()
+            print()
+            print("FAILED OMNI_EVALUATE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            print()
+            print()
+            return 0
+        
+        
     elif move_type(string) == "Lift and remove one":
         place = (int(string[8]),int(string[10]),int(string[12]))
         if board == lift_interpretor_implement(string,board,player):
@@ -601,13 +654,15 @@ def opponent_move(board):
     
     ''' Function to request, interpret, evaluate, and then implement the opponent's move. '''
     
+    #print ("Board passed to opponent_move:")
+    #print_board(board)
+    
     while True:
         string = input("Please enter move in string format.")
         if omni_evaluate(string,board,1) == 1:
-            print ("Legal")
             break
         else:
-            print ("Not legal")
+            print ("Not legal - failed omni_evaluate")
     
     if move_type(string) == "Place":
         board = change_board(place_remove_interpretor(string),board,1)
@@ -619,6 +674,8 @@ def opponent_move(board):
         board = implement_remove(second_step_interpretor(string),board)
         board = implement_remove(third_step_interpretor(string),board)
     elif move_type(string) == "Lift":
+        print ("Board opponent_move tries to change after passing through legality check:")
+        print_board(board)
         board = lift_interpretor_implement(string,board,1)
     elif move_type(string) == "Lift and remove one":
         board = lift_interpretor_implement(string,board,1)
@@ -645,8 +702,9 @@ b = np.zeros((3,3),dtype ='int') # second layer
 c = np.zeros((2,2),dtype ='int') # third layer
 d = np.zeros(1,dtype ='int') # fourth layer
 
-board = [a,b,c,d]
-print_board(board)
+boardG = [a,b,c,d]
+print ("Starting board")
+print_board(boardG)
 
 opponent_pieces = 15
 computer_pieces = 15
@@ -656,19 +714,20 @@ computer_pieces = 15
 print ("Opponent goes first")
 print()
 
-while board[3][0] == 0:
+while boardG[3][0] == 0:
     
-    if count_pieces(board,1) < 15:
-        board = opponent_move(board)
-        print_board(board)
-    
-    if count_pieces(board,2) < 15:
+    if count_pieces(boardG,1) < 15:
+        boardG = opponent_move(boardG)
+        #print("Board after 'board = opponent_move(board)':")
+        #print_board(boardG)    
+    if count_pieces(boardG,2) < 15:
         legality = 0
         while legality == 0:   
             move = random_move()
-            legality = availability_check(move,board)
-        board = change_board(move,board,2)
-        print_board (board)
+            legality = availability_check(move,boardG)
+        boardG = change_board(move,boardG,2)
+        print("Board after computer's move:")
+        print_board (boardG)
         
     
     
